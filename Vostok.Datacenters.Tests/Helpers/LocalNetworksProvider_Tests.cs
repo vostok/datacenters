@@ -7,7 +7,8 @@ namespace Vostok.Datacenters.Tests.Helpers
     [TestFixture]
     internal class LocalNetworksProvider_Tests
     {
-        [Test, Explicit("not works on appveyor")]
+        [Test]
+        [Explicit("Not works on appveyor.")]
         public void Should_locate_something()
         {
             LocalNetworksProvider.Get().Should().NotBeEmpty();

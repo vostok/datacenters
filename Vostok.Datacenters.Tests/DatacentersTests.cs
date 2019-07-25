@@ -62,7 +62,8 @@ namespace Vostok.Datacenters.Tests
             datacenters.GetDatacenter(hostName).Should().Be("my");
         }
 
-        [Test, Explicit("not works on appveyor")]
+        [Test]
+        [Explicit("Not works on appveyor.")]
         public void GetActiveDatacenters_should_works_correctly()
         {
             datacenters.GetActiveDatacenters().Should().BeEquivalentTo("dc1");
