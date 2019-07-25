@@ -12,16 +12,6 @@ namespace Vostok.Datacenters
     [PublicAPI]
     public class DatacentersSettings
     {
-        [NotNull]
-        public Func<IPAddress, string> DatacenterMapping { get; }
-
-        [NotNull]
-        public Func<IReadOnlyCollection<string>> ActiveDatacentersProvider { get; }
-
-        public TimeSpan DnsCacheTtl { get; set; } = 30.Minutes();
-
-        public TimeSpan DnsResolveTimeout { get; set; } = 100.Milliseconds();
-
         /// <summary>
         /// Creates a new instance of <see cref="DatacentersSettings"/>.
         /// <param name="datacenterMapping">Mapping from <see cref="IPAddress"/> to the name of datacenter.</param>
@@ -34,5 +24,15 @@ namespace Vostok.Datacenters
             DatacenterMapping = datacenterMapping ?? throw new ArgumentNullException(nameof(datacenterMapping));
             ActiveDatacentersProvider = activeDatacentersProvider ?? throw new ArgumentNullException(nameof(activeDatacentersProvider));
         }
+
+        [NotNull]
+        public Func<IPAddress, string> DatacenterMapping { get; }
+
+        [NotNull]
+        public Func<IReadOnlyCollection<string>> ActiveDatacentersProvider { get; }
+
+        public TimeSpan DnsCacheTtl { get; set; } = 30.Minutes();
+
+        public TimeSpan DnsResolveTimeout { get; set; } = 100.Milliseconds();
     }
 }

@@ -8,7 +8,7 @@ namespace Vostok.Datacenters.Helpers
 {
     internal class DnsResolver
     {
-        private static readonly IPAddress[] EmptyAddresses = { };
+        private static readonly IPAddress[] EmptyAddresses = {};
 
         private readonly TimeSpan cacheTtl;
         private readonly TimeSpan resolveTimeout;
@@ -45,20 +45,13 @@ namespace Vostok.Datacenters.Helpers
                         });
                 }
 
-                return cacheEntry.Item1;
+                return cacheEntry.addresses;
             }
 
             var resolveTask = ResolveAndUpdateCacheAsync(hostname, currentTime);
             return resolveTask.Wait(resolveTimeout)
                 ? resolveTask.GetAwaiter().GetResult()
                 : EmptyAddresses;
-        }
-
-        private async Task<IPAddress[]> ResolveAndUpdateCacheAsync(string hostname, DateTime currentTime)
-        {
-            var addresses = await ResolveInternal(hostname).ConfigureAwait(false);
-            cache[hostname] = (addresses, currentTime + cacheTtl);
-            return addresses;
         }
 
         private static async Task<IPAddress[]> ResolveInternal(string hostname)
@@ -71,6 +64,13 @@ namespace Vostok.Datacenters.Helpers
             {
                 return EmptyAddresses;
             }
+        }
+
+        private async Task<IPAddress[]> ResolveAndUpdateCacheAsync(string hostname, DateTime currentTime)
+        {
+            var addresses = await ResolveInternal(hostname).ConfigureAwait(false);
+            cache[hostname] = (addresses, currentTime + cacheTtl);
+            return addresses;
         }
     }
 }
