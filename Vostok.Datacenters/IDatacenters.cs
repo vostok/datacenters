@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using JetBrains.Annotations;
 
 namespace Vostok.Datacenters
@@ -26,5 +27,11 @@ namespace Vostok.Datacenters
         /// </summary>
         [CanBeNull]
         string GetDatacenter(string hostname);
+
+        /// <summary>
+        /// Returns list of active datacenters.
+        /// </summary>
+        [NotNull]
+        IReadOnlyCollection<string> GetActiveDatacenters();
     }
 }
