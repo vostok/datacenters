@@ -1,0 +1,17 @@
+notests *default:
+  build:
+    target: Vostok.Datacenters.sln
+    configuration: NoTests
+    tool:
+      name: dotnet
+
+  install:
+    - Vostok.Datacenters/bin/Release/netstandard2.0/Vostok.Datacenters.dll
+
+  deps:
+    - vostok.devtools
+
+full-build > notests:
+  build:
+    target: Vostok.Datacenters.sln
+    configuration: Release
