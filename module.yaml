@@ -10,6 +10,10 @@ notests *default:
 
   deps:
     - vostok.devtools
+    - vostok.commons.collections/src
+    - vostok.commons.helpers/src
+    - vostok.commons.threading/src
+    - vostok.commons.time/src
 
 full-build > notests:
   build:
