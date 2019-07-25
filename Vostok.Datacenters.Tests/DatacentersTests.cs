@@ -32,6 +32,7 @@ namespace Vostok.Datacenters.Tests
         }
 
         [Test]
+        [Explicit("Not works on appveyor.")]
         public void GetLocalDatacenter_should_works_correctly()
         {
             var ips = LocalNetworksProvider.Get();
@@ -63,7 +64,6 @@ namespace Vostok.Datacenters.Tests
         }
 
         [Test]
-        [Explicit("Not works on appveyor.")]
         public void GetActiveDatacenters_should_works_correctly()
         {
             datacenters.GetActiveDatacenters().Should().BeEquivalentTo("dc1");
