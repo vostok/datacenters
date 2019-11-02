@@ -36,6 +36,6 @@ namespace Vostok.Datacenters
                 .FirstOrDefault(x => x != null);
 
         public IReadOnlyCollection<string> GetActiveDatacenters() =>
-            settings.ActiveDatacentersProvider() ?? new string[] {};
+            settings.ActiveDatacentersProvider() ?? Array.Empty<string>();
     }
 }
