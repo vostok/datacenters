@@ -54,6 +54,13 @@ namespace Vostok.Datacenters.Helpers
                 : EmptyAddresses;
         }
 
+        private async Task<IPAddress[]> ResolveAndUpdateCacheAsync(string hostname, DateTime currentTime)
+        {
+            var addresses = await ResolveInternal(hostname).ConfigureAwait(false);
+            cache[hostname] = (addresses, currentTime + cacheTtl);
+            return addresses;
+        }
+
         private static async Task<IPAddress[]> ResolveInternal(string hostname)
         {
             try
@@ -64,13 +71,6 @@ namespace Vostok.Datacenters.Helpers
             {
                 return EmptyAddresses;
             }
-        }
-
-        private async Task<IPAddress[]> ResolveAndUpdateCacheAsync(string hostname, DateTime currentTime)
-        {
-            var addresses = await ResolveInternal(hostname).ConfigureAwait(false);
-            cache[hostname] = (addresses, currentTime + cacheTtl);
-            return addresses;
         }
     }
 }
