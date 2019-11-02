@@ -5,31 +5,34 @@ using JetBrains.Annotations;
 namespace Vostok.Datacenters
 {
     /// <summary>
-    /// An utility class containing helper methods for working with datacenters.
+    /// <see cref="IDatacenters"/> is a helper that assists in locating machines in datacenters.
     /// </summary>
     [PublicAPI]
     public interface IDatacenters
     {
         /// <summary>
-        /// Returns name of local datacenter.
+        /// <para>Returns the name of the datacenter that contains the local machine running this code.</para>
+        /// <para>May return <c>null</c> if its datacenter is not known.</para>
         /// </summary>
         [CanBeNull]
         string GetLocalDatacenter();
 
         /// <summary>
-        /// Returns name of datacenter which contains provided <see cref="IPAddress"/>.
+        /// <para>Returns the name of the datacenter that contains the machine with given <paramref name="address"></paramref>.</para>
+        /// <para>May return <c>null</c> if no such datacenter is known.</para>
         /// </summary>
         [CanBeNull]
-        string GetDatacenter(IPAddress address);
+        string GetDatacenter([NotNull] IPAddress address);
 
         /// <summary>
-        /// Returns name of datacenter which contains provided hostname.
+        /// <para>Returns the name of the datacenter that contains the machine with given <paramref name="hostname"></paramref>.</para>
+        /// <para>May return <c>null</c> if no such datacenter is known.</para>
         /// </summary>
         [CanBeNull]
-        string GetDatacenter(string hostname);
+        string GetDatacenter([NotNull] string hostname);
 
         /// <summary>
-        /// Returns list of active datacenters.
+        /// Returns a list of currently active datacenters.
         /// </summary>
         [NotNull]
         IReadOnlyCollection<string> GetActiveDatacenters();
