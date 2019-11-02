@@ -33,6 +33,6 @@ namespace Vostok.Datacenters
 
         public TimeSpan DnsCacheTtl { get; set; } = 30.Minutes();
 
-        public TimeSpan DnsResolveTimeout { get; set; } = 100.Milliseconds();
+        public TimeSpan DnsResolveTimeout { get; set; } = 1.Seconds();
     }
 }
