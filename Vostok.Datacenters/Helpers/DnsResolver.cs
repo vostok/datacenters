@@ -26,7 +26,7 @@ namespace Vostok.Datacenters.Helpers
             initialUpdateTasks = new ConcurrentDictionary<string, Lazy<Task<IPAddress[]>>>(StringComparer.OrdinalIgnoreCase);
         }
 
-        public IPAddress[] Resolve(string hostname)
+        public IPAddress[] Resolve(string hostname, bool canWait)
         {
             var currentTime = DateTime.UtcNow;
 
@@ -57,7 +57,10 @@ namespace Vostok.Datacenters.Helpers
                     () => ResolveAndUpdateCacheAsync(hostname, currentTime), LazyThreadSafetyMode.ExecutionAndPublication));
 
             var resolveTask = resolveTaskLazy.Value;
-            
+
+            if (!canWait)
+                return resolveTask.IsCompleted ? resolveTask.GetAwaiter().GetResult() : EmptyAddresses;
+
             return resolveTask.Wait(resolveTimeout)
                 ? resolveTask.GetAwaiter().GetResult()
                 : EmptyAddresses;
