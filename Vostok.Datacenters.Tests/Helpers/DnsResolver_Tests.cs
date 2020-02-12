@@ -14,7 +14,7 @@ namespace Vostok.Datacenters.Tests.Helpers
         {
             var host = Dns.GetHostName();
             var resolver = new DnsResolver(1.Minutes(), 1.Seconds());
-            resolver.Resolve(host).Should().NotBeEmpty();
+            resolver.Resolve(host, true).Should().NotBeEmpty();
         }
     }
 }

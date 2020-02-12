@@ -32,6 +32,13 @@ namespace Vostok.Datacenters
         string GetDatacenter([NotNull] string hostname);
 
         /// <summary>
+        /// <para>Returns the name of the datacenter that contains the machine with given <paramref name="hostname"></paramref>.</para>
+        /// <para>May return <c>null</c> if no such datacenter is known or the initial DNS resolution has not happened yet.</para>
+        /// </summary>
+        [CanBeNull]
+        string GetDatacenterWeak([NotNull] string hostname);
+
+        /// <summary>
         /// Returns a list of currently active datacenters.
         /// </summary>
         [NotNull]
