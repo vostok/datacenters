@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Vostok.Commons.Threading;
 
@@ -13,6 +14,7 @@ namespace Vostok.Datacenters.Helpers
         private readonly TimeSpan cacheTtl;
         private readonly TimeSpan resolveTimeout;
         private readonly ConcurrentDictionary<string, (IPAddress[] addresses, DateTime validTo)> cache;
+        private readonly ConcurrentDictionary<string, Lazy<Task<IPAddress[]>>> initialUpdateTasks;
         private volatile AtomicBoolean isUpdatingNow = false;
 
         public DnsResolver(TimeSpan cacheTtl, TimeSpan resolveTimeout)
@@ -21,6 +23,7 @@ namespace Vostok.Datacenters.Helpers
             this.resolveTimeout = resolveTimeout;
 
             cache = new ConcurrentDictionary<string, (IPAddress[] addresses, DateTime validTo)>(StringComparer.OrdinalIgnoreCase);
+            initialUpdateTasks = new ConcurrentDictionary<string, Lazy<Task<IPAddress[]>>>(StringComparer.OrdinalIgnoreCase);
         }
 
         public IPAddress[] Resolve(string hostname)
@@ -48,7 +51,13 @@ namespace Vostok.Datacenters.Helpers
                 return cacheEntry.addresses;
             }
 
-            var resolveTask = ResolveAndUpdateCacheAsync(hostname, currentTime);
+            var resolveTaskLazy = initialUpdateTasks.GetOrAdd(
+                hostname,
+                _ => new Lazy<Task<IPAddress[]>>(
+                    () => ResolveAndUpdateCacheAsync(hostname, currentTime), LazyThreadSafetyMode.ExecutionAndPublication));
+
+            var resolveTask = resolveTaskLazy.Value;
+            
             return resolveTask.Wait(resolveTimeout)
                 ? resolveTask.GetAwaiter().GetResult()
                 : EmptyAddresses;
