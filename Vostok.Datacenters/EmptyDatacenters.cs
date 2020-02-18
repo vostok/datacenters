@@ -14,6 +14,8 @@ namespace Vostok.Datacenters
 
         public string GetDatacenter(string hostname) => null;
 
+        public string GetDatacenterWeak(string hostname) => null;
+
         public IReadOnlyCollection<string> GetActiveDatacenters() => Array.Empty<string>();
     }
 }
