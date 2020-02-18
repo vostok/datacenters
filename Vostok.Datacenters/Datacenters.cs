@@ -26,16 +26,22 @@ namespace Vostok.Datacenters
                 .Select(GetDatacenter)
                 .FirstOrDefault(datacenter => datacenter != null);
 
-        public string GetDatacenter(IPAddress address) =>
-            settings.DatacenterMapping(address);
+        public string GetDatacenter(IPAddress address) 
+            => settings.DatacenterMapping(address);
 
-        public string GetDatacenter(string hostname) =>
-            dnsResolver
-                .Resolve(hostname)
-                .Select(GetDatacenter)
-                .FirstOrDefault(x => x != null);
+        public string GetDatacenter(string hostname)
+            => GetDatacenterInternal(hostname, true);
+
+        public string GetDatacenterWeak(string hostname)
+            => GetDatacenterInternal(hostname, false);
 
         public IReadOnlyCollection<string> GetActiveDatacenters() =>
             settings.ActiveDatacentersProvider() ?? Array.Empty<string>();
+
+        private string GetDatacenterInternal(string hostname, bool canWaitForDnsResolution) =>
+            dnsResolver
+                .Resolve(hostname, canWaitForDnsResolution)
+                .Select(GetDatacenter)
+                .FirstOrDefault(x => x != null);
     }
 }
