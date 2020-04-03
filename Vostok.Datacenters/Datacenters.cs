@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using JetBrains.Annotations;
+using Vostok.Commons.Environment;
 using Vostok.Datacenters.Helpers;
 
 namespace Vostok.Datacenters
@@ -25,7 +26,8 @@ namespace Vostok.Datacenters
                               ?? Environment.GetEnvironmentVariable(Constants.LocalDatacenterVariable);
 
             localHostname = this.settings.LocalHostname
-                            ?? Environment.GetEnvironmentVariable(Constants.LocalHostnameVariable);
+                            ?? Environment.GetEnvironmentVariable(Constants.LocalHostnameVariable)
+                            ?? EnvironmentInfo.FQDN;
 
             dnsResolver = new DnsResolver(settings.DnsCacheTtl, settings.DnsResolveTimeout);
         }
