@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using FluentAssertions;
@@ -60,7 +61,7 @@ namespace Vostok.Datacenters.Tests
                     ip => datacentersMapping.ContainsKey(ip) ? datacentersMapping[ip] : null,
                     () => activeDatacenters)
                 {
-                    LocalHostnameOverwriting = hostName
+                    LocalHostname = hostName
                 });
 
             datacenters.GetLocalDatacenter().Should().Be("my");
@@ -74,10 +75,25 @@ namespace Vostok.Datacenters.Tests
                     ip => null,
                     () => activeDatacenters)
                 {
-                    LocalDatacenterOverwriting = "my"
+                    LocalDatacenter = "dc_from_settings"
                 });
 
-            datacenters.GetLocalDatacenter().Should().Be("my");
+            datacenters.GetLocalDatacenter().Should().Be("dc_from_settings");
+        }
+
+        [Test]
+        public void GetLocalDatacenter_should_works_correctly_with_overwriting_using_env_variable()
+        {
+            Environment.SetEnvironmentVariable(Constants.LocalDatacenterVariable, "dc_from_env");
+
+            datacenters = new Datacenters(
+                new DatacentersSettings(
+                    ip => null,
+                    () => activeDatacenters));
+
+            datacenters.GetLocalDatacenter().Should().Be("dc_from_env");
+
+            Environment.SetEnvironmentVariable(Constants.LocalDatacenterVariable, null);
         }
 
         [Test]

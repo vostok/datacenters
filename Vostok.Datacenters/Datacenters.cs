@@ -17,17 +17,24 @@ namespace Vostok.Datacenters
         public Datacenters([NotNull] DatacentersSettings settings)
         {
             this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
+
+            this.settings.LocalDatacenter = this.settings.LocalDatacenter
+                                            ?? Environment.GetEnvironmentVariable(Constants.LocalDatacenterVariable);
+
+            this.settings.LocalHostname = this.settings.LocalHostname
+                                          ?? Environment.GetEnvironmentVariable(Constants.LocalHostnameVariable);
+
             dnsResolver = new DnsResolver(settings.DnsCacheTtl, settings.DnsResolveTimeout);
         }
 
         public string GetLocalDatacenter()
         {
-            if (settings.LocalDatacenterOverwriting != null)
-                return settings.LocalDatacenterOverwriting;
+            if (settings.LocalDatacenter != null)
+                return settings.LocalDatacenter;
 
-            if (settings.LocalHostnameOverwriting != null)
+            if (settings.LocalHostname != null)
             {
-                var localDatacenter = GetDatacenter(settings.LocalHostnameOverwriting);
+                var localDatacenter = GetDatacenter(settings.LocalHostname);
                 if (localDatacenter != null)
                     return localDatacenter;
             }
