@@ -35,7 +35,7 @@ namespace Vostok.Datacenters.Tests
 
         [Test]
         [Explicit("Not works on appveyor.")]
-        public void GetLocalDatacenter_should_works_correctly()
+        public void GetLocalDatacenter_should_work_correctly()
         {
             var ips = LocalNetworksProvider.Get();
             ips.Should().NotBeEmpty();
@@ -47,7 +47,7 @@ namespace Vostok.Datacenters.Tests
 
         [Test]
         [Explicit("Not works on appveyor.")]
-        public void GetLocalDatacenter_should_works_correctly_with_hostname_overwriting()
+        public void GetLocalDatacenter_should_work_correctly_with_hostname_overwriting()
         {
             var hostName = EnvironmentInfo.Host;
 
@@ -68,7 +68,7 @@ namespace Vostok.Datacenters.Tests
         }
 
         [Test]
-        public void GetLocalDatacenter_should_works_correctly_with_overwriting()
+        public void GetLocalDatacenter_should_work_correctly_with_overwriting()
         {
             datacenters = new Datacenters(
                 new DatacentersSettings(
@@ -82,7 +82,7 @@ namespace Vostok.Datacenters.Tests
         }
 
         [Test]
-        public void GetLocalDatacenter_should_works_correctly_with_overwriting_using_env_variable()
+        public void GetLocalDatacenter_should_work_correctly_with_overwriting_using_env_variable()
         {
             Environment.SetEnvironmentVariable(Constants.LocalDatacenterVariable, "dc_from_env");
 
@@ -97,14 +97,14 @@ namespace Vostok.Datacenters.Tests
         }
 
         [Test]
-        public void GetDatacenter_by_ip_should_works_correctly()
+        public void GetDatacenter_by_ip_should_work_correctly()
         {
             datacenters.GetDatacenter(IPAddress.Parse("10.1.1.1")).Should().Be("dc1");
             datacenters.GetDatacenter(IPAddress.Parse("20.1.1.1")).Should().Be("dc2");
         }
 
         [Test]
-        public void GetDatacenter_by_hostname_should_works_correctly()
+        public void GetDatacenter_by_hostname_should_work_correctly()
         {
             var hostName = Dns.GetHostName();
             var ips = Dns.GetHostAddresses(hostName);
@@ -117,7 +117,7 @@ namespace Vostok.Datacenters.Tests
         }
 
         [Test]
-        public void GetActiveDatacenters_should_works_correctly()
+        public void GetActiveDatacenters_should_work_correctly()
         {
             datacenters.GetActiveDatacenters().Should().BeEquivalentTo("dc1");
             activeDatacenters.Add("dc2");
