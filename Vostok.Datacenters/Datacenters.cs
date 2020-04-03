@@ -14,29 +14,32 @@ namespace Vostok.Datacenters
         private readonly DatacentersSettings settings;
         private readonly DnsResolver dnsResolver;
 
+        private readonly string localDatacenter;
+        private readonly string localHostname;
+
         public Datacenters([NotNull] DatacentersSettings settings)
         {
             this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
-            this.settings.LocalDatacenter = this.settings.LocalDatacenter
-                                            ?? Environment.GetEnvironmentVariable(Constants.LocalDatacenterVariable);
+            localDatacenter = this.settings.LocalDatacenter
+                              ?? Environment.GetEnvironmentVariable(Constants.LocalDatacenterVariable);
 
-            this.settings.LocalHostname = this.settings.LocalHostname
-                                          ?? Environment.GetEnvironmentVariable(Constants.LocalHostnameVariable);
+            localHostname = this.settings.LocalHostname
+                            ?? Environment.GetEnvironmentVariable(Constants.LocalHostnameVariable);
 
             dnsResolver = new DnsResolver(settings.DnsCacheTtl, settings.DnsResolveTimeout);
         }
 
         public string GetLocalDatacenter()
         {
-            if (settings.LocalDatacenter != null)
-                return settings.LocalDatacenter;
+            if (localDatacenter != null)
+                return localDatacenter;
 
-            if (settings.LocalHostname != null)
+            if (localHostname != null)
             {
-                var localDatacenter = GetDatacenter(settings.LocalHostname);
-                if (localDatacenter != null)
-                    return localDatacenter;
+                var d = GetDatacenter(localHostname);
+                if (d != null)
+                    return d;
             }
 
             return LocalNetworksProvider
