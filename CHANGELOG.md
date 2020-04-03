@@ -1,3 +1,7 @@
+## 0.1.3 (03-04-2020):
+
+Local datacenter can be configured using settings or environment variables.
+
 ## 0.1.2 (18-02-2020):
 
 - DnsResolver: deduplicate initial resolve calls.
