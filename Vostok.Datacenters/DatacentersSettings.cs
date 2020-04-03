@@ -34,5 +34,11 @@ namespace Vostok.Datacenters
         public TimeSpan DnsCacheTtl { get; set; } = 30.Minutes();
 
         public TimeSpan DnsResolveTimeout { get; set; } = 1.Seconds();
+
+        [CanBeNull]
+        public string LocalHostnameOverwriting { get; set; }
+
+        [CanBeNull]
+        public string LocalDatacenterOverwriting { get; set; }
     }
 }

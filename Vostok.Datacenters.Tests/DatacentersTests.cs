@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using FluentAssertions;
 using NUnit.Framework;
+using Vostok.Commons.Environment;
 using Vostok.Datacenters.Helpers;
 
 namespace Vostok.Datacenters.Tests
@@ -39,6 +40,42 @@ namespace Vostok.Datacenters.Tests
             ips.Should().NotBeEmpty();
 
             datacentersMapping[ips.Last()] = "my";
+
+            datacenters.GetLocalDatacenter().Should().Be("my");
+        }
+
+        [Test]
+        [Explicit("Not works on appveyor.")]
+        public void GetLocalDatacenter_should_works_correctly_with_hostname_overwriting()
+        {
+            var hostName = EnvironmentInfo.Host;
+
+            var ips = LocalNetworksProvider.Get();
+            ips.Should().NotBeEmpty();
+
+            datacentersMapping[ips.Last()] = "my";
+
+            datacenters = new Datacenters(
+                new DatacentersSettings(
+                    ip => datacentersMapping.ContainsKey(ip) ? datacentersMapping[ip] : null,
+                    () => activeDatacenters)
+                {
+                    LocalHostnameOverwriting = hostName
+                });
+
+            datacenters.GetLocalDatacenter().Should().Be("my");
+        }
+
+        [Test]
+        public void GetLocalDatacenter_should_works_correctly_with_overwriting()
+        {
+            datacenters = new Datacenters(
+                new DatacentersSettings(
+                    ip => null,
+                    () => activeDatacenters)
+                {
+                    LocalDatacenterOverwriting = "my"
+                });
 
             datacenters.GetLocalDatacenter().Should().Be("my");
         }
