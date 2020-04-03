@@ -54,7 +54,8 @@ namespace Vostok.Datacenters.Helpers
             var resolveTaskLazy = initialUpdateTasks.GetOrAdd(
                 hostname,
                 _ => new Lazy<Task<IPAddress[]>>(
-                    () => ResolveAndUpdateCacheAsync(hostname, currentTime), LazyThreadSafetyMode.ExecutionAndPublication));
+                    () => ResolveAndUpdateCacheAsync(hostname, currentTime),
+                    LazyThreadSafetyMode.ExecutionAndPublication));
 
             var resolveTask = resolveTaskLazy.Value;
 
@@ -64,13 +65,6 @@ namespace Vostok.Datacenters.Helpers
             return resolveTask.Wait(resolveTimeout)
                 ? resolveTask.GetAwaiter().GetResult()
                 : EmptyAddresses;
-        }
-
-        private async Task<IPAddress[]> ResolveAndUpdateCacheAsync(string hostname, DateTime currentTime)
-        {
-            var addresses = await ResolveInternal(hostname).ConfigureAwait(false);
-            cache[hostname] = (addresses, currentTime + cacheTtl);
-            return addresses;
         }
 
         private static async Task<IPAddress[]> ResolveInternal(string hostname)
@@ -83,6 +77,13 @@ namespace Vostok.Datacenters.Helpers
             {
                 return EmptyAddresses;
             }
+        }
+
+        private async Task<IPAddress[]> ResolveAndUpdateCacheAsync(string hostname, DateTime currentTime)
+        {
+            var addresses = await ResolveInternal(hostname).ConfigureAwait(false);
+            cache[hostname] = (addresses, currentTime + cacheTtl);
+            return addresses;
         }
     }
 }

@@ -19,3 +19,6 @@ full-build > notests:
   build:
     target: Vostok.Datacenters.sln
     configuration: Release
+
+  deps:
+    - vostok.commons.environment/src
