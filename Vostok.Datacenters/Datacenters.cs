@@ -20,13 +20,25 @@ namespace Vostok.Datacenters
             dnsResolver = new DnsResolver(settings.DnsCacheTtl, settings.DnsResolveTimeout);
         }
 
-        public string GetLocalDatacenter() =>
-            LocalNetworksProvider
+        public string GetLocalDatacenter()
+        {
+            if (settings.LocalDatacenterOverwriting != null)
+                return settings.LocalDatacenterOverwriting;
+
+            if (settings.LocalHostnameOverwriting != null)
+            {
+                var localDatacenter = GetDatacenter(settings.LocalHostnameOverwriting);
+                if (localDatacenter != null)
+                    return localDatacenter;
+            }
+
+            return LocalNetworksProvider
                 .Get()
                 .Select(GetDatacenter)
                 .FirstOrDefault(datacenter => datacenter != null);
+        }
 
-        public string GetDatacenter(IPAddress address) 
+        public string GetDatacenter(IPAddress address)
             => settings.DatacenterMapping(address);
 
         public string GetDatacenter(string hostname)
