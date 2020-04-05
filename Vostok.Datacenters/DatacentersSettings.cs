@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using JetBrains.Annotations;
 using Vostok.Commons.Time;
-using Vostok.Datacenters.Helpers;
 
 namespace Vostok.Datacenters
 {
@@ -37,13 +36,13 @@ namespace Vostok.Datacenters
         public TimeSpan DnsResolveTimeout { get; set; } = 1.Seconds();
 
         /// <summary>
-        /// Local datacenter can be specified here, or using <see cref="Constants.LocalDatacenterVariable"/> environment variable.
+        /// Local datacenter can be specified here, or using <c>VOSTOK_LOCAL_DATACENTER</c> environment variable.
         /// </summary>
         [CanBeNull]
         public string LocalDatacenter { get; set; }
 
         /// <summary>
-        /// Local hostname can be specified here, or using <see cref="Constants.LocalHostnameVariable"/> environment variable.
+        /// Local hostname can be specified here, or using <c>VOSTOK_LOCAL_HOSTNAME</c> or <c>VOSTOK_LOCAL_FQDN</c> environment variable.
         /// </summary>
         [CanBeNull]
         public string LocalHostname { get; set; }

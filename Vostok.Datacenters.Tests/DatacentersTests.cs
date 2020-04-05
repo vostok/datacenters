@@ -84,7 +84,7 @@ namespace Vostok.Datacenters.Tests
         [Test]
         public void GetLocalDatacenter_should_work_correctly_with_overwriting_using_env_variable()
         {
-            Environment.SetEnvironmentVariable(Constants.LocalDatacenterVariable, "dc_from_env");
+            Environment.SetEnvironmentVariable("VOSTOK_LOCAL_DATACENTER", "dc_from_env");
 
             datacenters = new Datacenters(
                 new DatacentersSettings(
@@ -93,7 +93,7 @@ namespace Vostok.Datacenters.Tests
 
             datacenters.GetLocalDatacenter().Should().Be("dc_from_env");
 
-            Environment.SetEnvironmentVariable(Constants.LocalDatacenterVariable, null);
+            Environment.SetEnvironmentVariable("VOSTOK_LOCAL_DATACENTER", null);
         }
 
         [Test]
