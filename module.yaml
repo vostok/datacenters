@@ -14,11 +14,9 @@ notests *default:
     - vostok.commons.helpers/src
     - vostok.commons.threading/src
     - vostok.commons.time/src
+    - vostok.commons.environment/src
 
 full-build > notests:
   build:
     target: Vostok.Datacenters.sln
     configuration: Release
-
-  deps:
-    - vostok.commons.environment/src
