@@ -12,6 +12,8 @@ namespace Vostok.Datacenters
     [PublicAPI]
     public class Datacenters : IDatacenters
     {
+        public const string LocalDatacenterVariable = "VOSTOK_LOCAL_DATACENTER";
+
         private readonly DatacentersSettings settings;
         private readonly DnsResolver dnsResolver;
 
@@ -23,10 +25,9 @@ namespace Vostok.Datacenters
             this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
             localDatacenter = this.settings.LocalDatacenter
-                              ?? Environment.GetEnvironmentVariable(Constants.LocalDatacenterVariable);
+                              ?? Environment.GetEnvironmentVariable(LocalDatacenterVariable);
 
             localHostname = this.settings.LocalHostname
-                            ?? Environment.GetEnvironmentVariable(Constants.LocalHostnameVariable)
                             ?? EnvironmentInfo.FQDN;
 
             dnsResolver = new DnsResolver(settings.DnsCacheTtl, settings.DnsResolveTimeout);
