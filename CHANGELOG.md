@@ -1,4 +1,4 @@
-## 0.1.3 (03-04-2020):
+## 0.1.4 (06-04-2020):
 
 Local datacenter can be configured using settings or environment variables.
 
