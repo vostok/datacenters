@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using JetBrains.Annotations;
 using Vostok.Commons.Environment;
+using Vostok.Commons.Helpers.Network;
 using Vostok.Datacenters.Helpers;
 
 namespace Vostok.Datacenters
