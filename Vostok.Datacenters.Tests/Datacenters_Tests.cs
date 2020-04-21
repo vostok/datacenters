@@ -10,7 +10,7 @@ using Vostok.Datacenters.Helpers;
 namespace Vostok.Datacenters.Tests
 {
     [TestFixture]
-    internal class DatacentersTests
+    internal class Datacenters_Tests
     {
         private HashSet<string> activeDatacenters;
         private Dictionary<IPAddress, string> datacentersMapping;
