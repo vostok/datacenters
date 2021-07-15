@@ -29,7 +29,9 @@ namespace Vostok.Datacenters
         public Datacenters([NotNull] DatacentersSettings settings)
         {
             this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
-
+            
+            log = settings.Log.ForContext<Datacenters>();
+            
             localDatacenter = this.settings.LocalDatacenter
                               ?? Environment.GetEnvironmentVariable(LocalDatacenterVariable);
 
@@ -39,8 +41,6 @@ namespace Vostok.Datacenters
             LogInitialHostname();
 
             dnsResolver = new DnsResolver(settings.DnsCacheTtl, settings.DnsResolveTimeout);
-
-            log = settings.Log.ForContext<Datacenters>();
         }
 
         public string GetLocalDatacenter()
