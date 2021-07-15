@@ -9,6 +9,7 @@ notests *default:
     - Vostok.Datacenters/bin/Release/netstandard2.0/Vostok.Datacenters.dll
 
   deps:
+    - vostok.logging.abstractions
     - vostok.devtools
     - vostok.commons.collections/src
     - vostok.commons.helpers/src

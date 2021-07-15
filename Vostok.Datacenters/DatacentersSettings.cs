@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using JetBrains.Annotations;
 using Vostok.Commons.Time;
+using Vostok.Logging.Abstractions;
 
 namespace Vostok.Datacenters
 {
@@ -19,11 +20,15 @@ namespace Vostok.Datacenters
         /// </summary>
         public DatacentersSettings(
             [NotNull] Func<IPAddress, string> datacenterMapping,
-            [NotNull] Func<IReadOnlyCollection<string>> activeDatacentersProvider)
+            [NotNull] Func<IReadOnlyCollection<string>> activeDatacentersProvider,
+            ILog log = null)
         {
             DatacenterMapping = datacenterMapping ?? throw new ArgumentNullException(nameof(datacenterMapping));
             ActiveDatacentersProvider = activeDatacentersProvider ?? throw new ArgumentNullException(nameof(activeDatacentersProvider));
+            Log = log ?? new SilentLog();
         }
+
+        public ILog Log { get; }
 
         [NotNull]
         public Func<IPAddress, string> DatacenterMapping { get; }
