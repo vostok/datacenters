@@ -48,20 +48,20 @@ namespace Vostok.Datacenters
             if (localDatacenter != null)
                 return localDatacenter;
 
+            var ips = LocalNetworksProvider.Get();
+
+            LogIpList(ips);
+
             if (localHostname != null)
             {
                 var d = GetDatacenter(localHostname);
+                LogDcFromHostname(d);
                 if (d != null)
                 {
-                    LogDcFromHostname(d);
                     isFirstLogging = false;
                     return d;
                 }
             }
-
-            var ips = LocalNetworksProvider.Get();
-
-            LogIpList(ips);
 
             var dc = ips.Select(GetDatacenter)
                 .FirstOrDefault(datacenter => datacenter != null);
@@ -85,11 +85,24 @@ namespace Vostok.Datacenters
         public IReadOnlyCollection<string> GetActiveDatacenters() =>
             settings.ActiveDatacentersProvider() ?? Array.Empty<string>();
 
-        private string GetDatacenterInternal(string hostname, bool canWaitForDnsResolution) =>
-            dnsResolver
-                .Resolve(hostname, canWaitForDnsResolution)
-                .Select(GetDatacenter)
+        private string GetDatacenterInternal(string hostname, bool canWaitForDnsResolution)
+        {
+            var ip = dnsResolver
+                .Resolve(hostname, canWaitForDnsResolution);
+
+            LogIpListFromDnsResolver(hostname, ip);
+
+                return ip.Select(GetDatacenter)
                 .FirstOrDefault(x => x != null);
+        }
+
+
+        private void LogIpListFromDnsResolver(string hostname, IPAddress[] ips)
+        {
+            if(isFirstLogging)
+                log.Info("{hostname} resolved in '{ips}'", hostname,string.Join(",", ips.Select(x => x.ToString())));
+        }
+
 
         private void LogInitialHostname()
         {
