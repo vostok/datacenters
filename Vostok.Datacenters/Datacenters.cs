@@ -21,10 +21,6 @@ namespace Vostok.Datacenters
         private readonly string localDatacenter;
         private readonly string localHostname;
 
-        /// We need to cache this Func because of the Select enumerators in <see cref="GetDatacenterInternal"/> and <see cref="GetLocalDatacenter"/> functions.
-        /// To prevent our <code>GetDatacenter(IPAddress address)</code> function from wrapping itself into a new function every time it is called.
-        private readonly Func<IPAddress, string> cachedGetDatacenterFunc;
-
         public Datacenters([NotNull] DatacentersSettings settings)
         {
             this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
@@ -36,8 +32,6 @@ namespace Vostok.Datacenters
                             ?? EnvironmentInfo.FQDN;
 
             dnsResolver = new DnsResolver(settings.DnsCacheTtl, settings.DnsResolveTimeout);
-
-            cachedGetDatacenterFunc = GetDatacenter;
         }
 
         public string GetLocalDatacenter()
@@ -52,10 +46,7 @@ namespace Vostok.Datacenters
                     return d;
             }
 
-            return LocalNetworksProvider
-                .Get()
-                .Select(cachedGetDatacenterFunc)
-                .FirstOrDefault(datacenter => datacenter != null);
+            return GetDatacenterInternal(LocalNetworksProvider.Get());
         }
 
         public string GetDatacenter(IPAddress address)
@@ -70,10 +61,21 @@ namespace Vostok.Datacenters
         public IReadOnlyCollection<string> GetActiveDatacenters() =>
             settings.ActiveDatacentersProvider() ?? Array.Empty<string>();
 
-        private string GetDatacenterInternal(string hostname, bool canWaitForDnsResolution) =>
-            dnsResolver
-                .Resolve(hostname, canWaitForDnsResolution)
-                .Select(cachedGetDatacenterFunc)
-                .FirstOrDefault(x => x != null);
+        private string GetDatacenterInternal(string hostname, bool canWaitForDnsResolution)
+        {
+            return GetDatacenterInternal(dnsResolver.Resolve(hostname, canWaitForDnsResolution));
+        }
+
+        private string GetDatacenterInternal(IPAddress[] ipAddresses)
+        {
+            for (var i = 0; i < ipAddresses.Length; i++)
+            {
+                var address = GetDatacenter(ipAddresses[i]);
+                if (address != null)
+                    return address;
+            }
+
+            return default;
+        }
     }
 }
