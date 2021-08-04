@@ -70,9 +70,9 @@ namespace Vostok.Datacenters
         {
             for (var i = 0; i < ipAddresses.Length; i++)
             {
-                var address = GetDatacenter(ipAddresses[i]);
-                if (address != null)
-                    return address;
+                var datacenter = GetDatacenter(ipAddresses[i]);
+                if (datacenter != null)
+                    return datacenter;
             }
 
             return default;
