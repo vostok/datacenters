@@ -66,6 +66,7 @@ namespace Vostok.Datacenters
             return GetDatacenterInternal(dnsResolver.Resolve(hostname, canWaitForDnsResolution));
         }
 
+        //Don't even dare to press your Alt + Enter on this code, it's ugly for perf reasons.
         private string GetDatacenterInternal(IPAddress[] ipAddresses)
         {
             for (var i = 0; i < ipAddresses.Length; i++)
