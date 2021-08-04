@@ -21,6 +21,10 @@ namespace Vostok.Datacenters
         private readonly string localDatacenter;
         private readonly string localHostname;
 
+        /// We need to cache this Func because of the Select enumerators in <see cref="GetDatacenterInternal"/> and <see cref="GetLocalDatacenter"/> functions.
+        /// To prevent our <code>GetDatacenter(IPAddress address)</code> function from wrapping itself into a new function every time it is called.
+        private readonly Func<IPAddress, string> cachedGetDatacenterFunc;
+
         public Datacenters([NotNull] DatacentersSettings settings)
         {
             this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
@@ -32,6 +36,8 @@ namespace Vostok.Datacenters
                             ?? EnvironmentInfo.FQDN;
 
             dnsResolver = new DnsResolver(settings.DnsCacheTtl, settings.DnsResolveTimeout);
+
+            cachedGetDatacenterFunc = GetDatacenter;
         }
 
         public string GetLocalDatacenter()
@@ -48,7 +54,7 @@ namespace Vostok.Datacenters
 
             return LocalNetworksProvider
                 .Get()
-                .Select(GetDatacenter)
+                .Select(cachedGetDatacenterFunc)
                 .FirstOrDefault(datacenter => datacenter != null);
         }
 
@@ -67,7 +73,7 @@ namespace Vostok.Datacenters
         private string GetDatacenterInternal(string hostname, bool canWaitForDnsResolution) =>
             dnsResolver
                 .Resolve(hostname, canWaitForDnsResolution)
-                .Select(GetDatacenter)
+                .Select(cachedGetDatacenterFunc)
                 .FirstOrDefault(x => x != null);
     }
 }
