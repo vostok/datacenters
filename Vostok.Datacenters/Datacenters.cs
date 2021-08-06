@@ -46,10 +46,7 @@ namespace Vostok.Datacenters
                     return d;
             }
 
-            return LocalNetworksProvider
-                .Get()
-                .Select(GetDatacenter)
-                .FirstOrDefault(datacenter => datacenter != null);
+            return GetDatacenterInternal(LocalNetworksProvider.Get());
         }
 
         public string GetDatacenter(IPAddress address)
@@ -64,10 +61,22 @@ namespace Vostok.Datacenters
         public IReadOnlyCollection<string> GetActiveDatacenters() =>
             settings.ActiveDatacentersProvider() ?? Array.Empty<string>();
 
-        private string GetDatacenterInternal(string hostname, bool canWaitForDnsResolution) =>
-            dnsResolver
-                .Resolve(hostname, canWaitForDnsResolution)
-                .Select(GetDatacenter)
-                .FirstOrDefault(x => x != null);
+        private string GetDatacenterInternal(string hostname, bool canWaitForDnsResolution)
+        {
+            return GetDatacenterInternal(dnsResolver.Resolve(hostname, canWaitForDnsResolution));
+        }
+
+        //Don't even dare to press your Alt + Enter on this code, it's ugly for perf reasons.
+        private string GetDatacenterInternal(IPAddress[] ipAddresses)
+        {
+            for (var i = 0; i < ipAddresses.Length; i++)
+            {
+                var datacenter = GetDatacenter(ipAddresses[i]);
+                if (datacenter != null)
+                    return datacenter;
+            }
+
+            return default;
+        }
     }
 }
