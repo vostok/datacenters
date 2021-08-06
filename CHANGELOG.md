@@ -1,3 +1,7 @@
+## 0.1.4 (06-08-2021)
+
+Increase GetDatacenter* methods performance.
+
 ## 0.1.4 (06-04-2020):
 
 Local datacenter can be configured using settings or environment variables.
