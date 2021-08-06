@@ -1,4 +1,4 @@
-## 0.1.4 (06-08-2021)
+## 0.1.5 (06-08-2021)
 
 Increase GetDatacenter* methods performance.
 
