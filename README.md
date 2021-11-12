@@ -1,6 +1,6 @@
 # Vostok.Datacenters
 
-[![Build status](https://ci.appveyor.com/api/projects/status/github/vostok/datacenters?svg=true&branch=master)](https://ci.appveyor.com/project/vostok/datacenters/branch/master)
+[![Build & Test & Publish](https://github.com/vostok/datacenters/actions/workflows/ci.yml/badge.svg)](https://github.com/vostok/datacenters/actions/workflows/ci.yml)
 [![NuGet](https://img.shields.io/nuget/v/Vostok.Datacenters.svg)](https://www.nuget.org/packages/Vostok.Datacenters)
 
 An utility library containing helper classes for working with datacenters.
