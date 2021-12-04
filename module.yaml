@@ -17,6 +17,10 @@ notests *default:
     - vostok.commons.environment/src
 
 full-build > notests:
+  deps:
+    - -vostok.devtools
+    - vostok.devtools@with-net6.0
+
   build:
     target: Vostok.Datacenters.sln
     configuration: Release
