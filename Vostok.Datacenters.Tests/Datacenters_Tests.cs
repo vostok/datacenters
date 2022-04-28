@@ -34,7 +34,6 @@ namespace Vostok.Datacenters.Tests
         }
 
         [Test]
-        [Explicit("Not works on appveyor.")]
         public void GetLocalDatacenter_should_work_correctly()
         {
             var ips = LocalNetworksProvider.Get();
@@ -46,7 +45,6 @@ namespace Vostok.Datacenters.Tests
         }
 
         [Test]
-        [Explicit("Not works on appveyor.")]
         public void GetLocalDatacenter_should_work_correctly_with_hostname_overwriting()
         {
             var hostName = EnvironmentInfo.Host;
