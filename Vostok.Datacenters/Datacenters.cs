@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using JetBrains.Annotations;
 using Vostok.Commons.Environment;
@@ -53,22 +52,25 @@ namespace Vostok.Datacenters
             => settings.DatacenterMapping(address);
 
         public string GetDatacenter(string hostname)
-            => GetDatacenterInternal(hostname, true);
+            => IPAddress.TryParse(hostname, out var address)
+                ? GetDatacenter(address)
+                : GetDatacenterInternal(hostname, true);
 
         public string GetDatacenterWeak(string hostname)
-            => GetDatacenterInternal(hostname, false);
+            => IPAddress.TryParse(hostname, out var address)
+                ? GetDatacenter(address)
+                : GetDatacenterInternal(hostname, false);
 
         public IReadOnlyCollection<string> GetActiveDatacenters() =>
             settings.ActiveDatacentersProvider() ?? Array.Empty<string>();
 
-        private string GetDatacenterInternal(string hostname, bool canWaitForDnsResolution)
-        {
-            return GetDatacenterInternal(dnsResolver.Resolve(hostname, canWaitForDnsResolution));
-        }
+        private string GetDatacenterInternal(string hostname, bool canWaitForDnsResolution) =>
+            GetDatacenterInternal(dnsResolver.Resolve(hostname, canWaitForDnsResolution));
 
         //Don't even dare to press your Alt + Enter on this code, it's ugly for perf reasons.
         private string GetDatacenterInternal(IPAddress[] ipAddresses)
         {
+            // ReSharper disable once ForCanBeConvertedToForeach
             for (var i = 0; i < ipAddresses.Length; i++)
             {
                 var datacenter = GetDatacenter(ipAddresses[i]);
