@@ -1,3 +1,7 @@
+## 0.1.8 (28-04-2022):
+
+Do not resolve and cache string ip addresses.
+
 ## 0.1.7 (06-12-2021):
 
 Added `net6.0` target.
