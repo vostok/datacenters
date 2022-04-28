@@ -102,6 +102,13 @@ namespace Vostok.Datacenters.Tests
             datacenters.GetDatacenter(IPAddress.Parse("10.1.1.1")).Should().Be("dc1");
             datacenters.GetDatacenter(IPAddress.Parse("20.1.1.1")).Should().Be("dc2");
         }
+        
+        [Test]
+        public void GetDatacenter_by_hostname_ip_should_work_correctly()
+        {
+            datacenters.GetDatacenter("10.1.1.1").Should().Be("dc1");
+            datacenters.GetDatacenter("20.1.1.1").Should().Be("dc2");
+        }
 
         [Test]
         public void GetDatacenter_by_hostname_should_work_correctly()
