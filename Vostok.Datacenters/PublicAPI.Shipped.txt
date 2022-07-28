@@ -1,0 +1,39 @@
+const Vostok.Datacenters.Datacenters.LocalDatacenterVariable = "VOSTOK_LOCAL_DATACENTER" -> string
+static Vostok.Datacenters.DatacentersProvider.Configure(Vostok.Datacenters.IDatacenters datacenters, bool canOverwrite = false) -> void
+static Vostok.Datacenters.DatacentersProvider.Get() -> Vostok.Datacenters.IDatacenters
+static Vostok.Datacenters.DatacentersProvider.IsConfigured.get -> bool
+static Vostok.Datacenters.IDatacentersExtensions.LocalDatacenterIsActive(this Vostok.Datacenters.IDatacenters datacenters) -> bool
+Vostok.Datacenters.Datacenters
+Vostok.Datacenters.Datacenters.Datacenters(Vostok.Datacenters.DatacentersSettings settings) -> void
+Vostok.Datacenters.Datacenters.GetActiveDatacenters() -> System.Collections.Generic.IReadOnlyCollection<string>
+Vostok.Datacenters.Datacenters.GetDatacenter(string hostname) -> string
+Vostok.Datacenters.Datacenters.GetDatacenter(System.Net.IPAddress address) -> string
+Vostok.Datacenters.Datacenters.GetDatacenterWeak(string hostname) -> string
+Vostok.Datacenters.Datacenters.GetLocalDatacenter() -> string
+Vostok.Datacenters.DatacentersProvider
+Vostok.Datacenters.DatacentersSettings
+Vostok.Datacenters.DatacentersSettings.ActiveDatacentersProvider.get -> System.Func<System.Collections.Generic.IReadOnlyCollection<string>>
+Vostok.Datacenters.DatacentersSettings.DatacenterMapping.get -> System.Func<System.Net.IPAddress, string>
+Vostok.Datacenters.DatacentersSettings.DatacentersSettings(System.Func<System.Net.IPAddress, string> datacenterMapping, System.Func<System.Collections.Generic.IReadOnlyCollection<string>> activeDatacentersProvider) -> void
+Vostok.Datacenters.DatacentersSettings.DnsCacheTtl.get -> System.TimeSpan
+Vostok.Datacenters.DatacentersSettings.DnsCacheTtl.set -> void
+Vostok.Datacenters.DatacentersSettings.DnsResolveTimeout.get -> System.TimeSpan
+Vostok.Datacenters.DatacentersSettings.DnsResolveTimeout.set -> void
+Vostok.Datacenters.DatacentersSettings.LocalDatacenter.get -> string
+Vostok.Datacenters.DatacentersSettings.LocalDatacenter.set -> void
+Vostok.Datacenters.DatacentersSettings.LocalHostname.get -> string
+Vostok.Datacenters.DatacentersSettings.LocalHostname.set -> void
+Vostok.Datacenters.EmptyDatacenters
+Vostok.Datacenters.EmptyDatacenters.EmptyDatacenters() -> void
+Vostok.Datacenters.EmptyDatacenters.GetActiveDatacenters() -> System.Collections.Generic.IReadOnlyCollection<string>
+Vostok.Datacenters.EmptyDatacenters.GetDatacenter(string hostname) -> string
+Vostok.Datacenters.EmptyDatacenters.GetDatacenter(System.Net.IPAddress address) -> string
+Vostok.Datacenters.EmptyDatacenters.GetDatacenterWeak(string hostname) -> string
+Vostok.Datacenters.EmptyDatacenters.GetLocalDatacenter() -> string
+Vostok.Datacenters.IDatacenters
+Vostok.Datacenters.IDatacenters.GetActiveDatacenters() -> System.Collections.Generic.IReadOnlyCollection<string>
+Vostok.Datacenters.IDatacenters.GetDatacenter(string hostname) -> string
+Vostok.Datacenters.IDatacenters.GetDatacenter(System.Net.IPAddress address) -> string
+Vostok.Datacenters.IDatacenters.GetDatacenterWeak(string hostname) -> string
+Vostok.Datacenters.IDatacenters.GetLocalDatacenter() -> string
+Vostok.Datacenters.IDatacentersExtensions
