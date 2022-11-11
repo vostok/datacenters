@@ -1,0 +1,3 @@
+Vostok.Datacenters.DatacentersSettings.ResolveHostname.get -> Vostok.Datacenters.ResolveHostname
+Vostok.Datacenters.DatacentersSettings.ResolveHostname.set -> void
+Vostok.Datacenters.ResolveHostname
