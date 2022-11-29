@@ -30,8 +30,7 @@ namespace Vostok.Datacenters
             localHostname = this.settings.LocalHostname
                             ?? EnvironmentInfo.FQDN;
 
-            var resolver = new DnsResolver(settings.DnsCacheTtl, settings.DnsResolveTimeout);
-            resolveHostname = settings.ResolveHostname ?? resolver.Resolve;
+            resolveHostname = settings.ResolveHostname ?? new DnsResolver(settings.DnsCacheTtl, settings.DnsResolveTimeout).Resolve;
         }
 
         public string GetLocalDatacenter()
