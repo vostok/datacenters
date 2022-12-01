@@ -6,6 +6,8 @@ using Vostok.Commons.Time;
 
 namespace Vostok.Datacenters
 {
+    public delegate IPAddress[] ResolveHostname(string hostname, bool canWaitSynchronousResolve);
+
     /// <summary>
     /// Represents <see cref="Datacenters"/> settings.
     /// </summary>
@@ -46,5 +48,12 @@ namespace Vostok.Datacenters
         /// </summary>
         [CanBeNull]
         public string LocalHostname { get; set; }
+
+        /// <summary>
+        /// You can specify the way to resolve hostname to an IPAddress. If not configured, the naive in-memory cache configured by properties <see cref="DnsCacheTtl"/> and <see cref="DnsResolveTimeout"/> from <see cref="DatacentersSettings"/> which resolve hostnames with <see cref="Dns"/> class will be used by default.
+        /// </summary>
+        [CanBeNull]
+        public ResolveHostname ResolveHostname { get; set; }
+
     }
 }
