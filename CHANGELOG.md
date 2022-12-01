@@ -1,3 +1,7 @@
+## 0.1.9 (01-12-2022):
+
+Add options to specify the way to resolve hostname to ip-addresses
+
 ## 0.1.8 (28-04-2022):
 
 Do not resolve and cache string ip addresses.

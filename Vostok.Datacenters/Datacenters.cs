@@ -15,7 +15,7 @@ namespace Vostok.Datacenters
         public const string LocalDatacenterVariable = "VOSTOK_LOCAL_DATACENTER";
 
         private readonly DatacentersSettings settings;
-        private readonly DnsResolver dnsResolver;
+        private readonly ResolveHostname resolveHostname;
 
         private readonly string localDatacenter;
         private readonly string localHostname;
@@ -30,7 +30,7 @@ namespace Vostok.Datacenters
             localHostname = this.settings.LocalHostname
                             ?? EnvironmentInfo.FQDN;
 
-            dnsResolver = new DnsResolver(settings.DnsCacheTtl, settings.DnsResolveTimeout);
+            resolveHostname = settings.ResolveHostname ?? new DnsResolver(settings.DnsCacheTtl, settings.DnsResolveTimeout).Resolve;
         }
 
         public string GetLocalDatacenter()
@@ -65,7 +65,7 @@ namespace Vostok.Datacenters
             settings.ActiveDatacentersProvider() ?? Array.Empty<string>();
 
         private string GetDatacenterInternal(string hostname, bool canWaitForDnsResolution) =>
-            GetDatacenterInternal(dnsResolver.Resolve(hostname, canWaitForDnsResolution));
+            GetDatacenterInternal(resolveHostname(hostname, canWaitForDnsResolution));
 
         //Don't even dare to press your Alt + Enter on this code, it's ugly for perf reasons.
         private string GetDatacenterInternal(IPAddress[] ipAddresses)
