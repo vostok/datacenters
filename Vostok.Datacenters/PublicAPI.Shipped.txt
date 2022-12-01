@@ -1,4 +1,4 @@
-const Vostok.Datacenters.Datacenters.LocalDatacenterVariable = "VOSTOK_LOCAL_DATACENTER" -> string
+﻿const Vostok.Datacenters.Datacenters.LocalDatacenterVariable = "VOSTOK_LOCAL_DATACENTER" -> string
 static Vostok.Datacenters.DatacentersProvider.Configure(Vostok.Datacenters.IDatacenters datacenters, bool canOverwrite = false) -> void
 static Vostok.Datacenters.DatacentersProvider.Get() -> Vostok.Datacenters.IDatacenters
 static Vostok.Datacenters.DatacentersProvider.IsConfigured.get -> bool
@@ -23,6 +23,8 @@ Vostok.Datacenters.DatacentersSettings.LocalDatacenter.get -> string
 Vostok.Datacenters.DatacentersSettings.LocalDatacenter.set -> void
 Vostok.Datacenters.DatacentersSettings.LocalHostname.get -> string
 Vostok.Datacenters.DatacentersSettings.LocalHostname.set -> void
+Vostok.Datacenters.DatacentersSettings.ResolveHostname.get -> Vostok.Datacenters.ResolveHostname
+Vostok.Datacenters.DatacentersSettings.ResolveHostname.set -> void
 Vostok.Datacenters.EmptyDatacenters
 Vostok.Datacenters.EmptyDatacenters.EmptyDatacenters() -> void
 Vostok.Datacenters.EmptyDatacenters.GetActiveDatacenters() -> System.Collections.Generic.IReadOnlyCollection<string>
@@ -37,3 +39,4 @@ Vostok.Datacenters.IDatacenters.GetDatacenter(System.Net.IPAddress address) -> s
 Vostok.Datacenters.IDatacenters.GetDatacenterWeak(string hostname) -> string
 Vostok.Datacenters.IDatacenters.GetLocalDatacenter() -> string
 Vostok.Datacenters.IDatacentersExtensions
+Vostok.Datacenters.ResolveHostname
