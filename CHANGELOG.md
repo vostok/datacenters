@@ -1,3 +1,7 @@
+## 0.1.10 (12-12-2024): 
+
+Bump NuGet deps versions
+
 ## 0.1.9 (01-12-2022):
 
 Add options to specify the way to resolve hostname to ip-addresses
