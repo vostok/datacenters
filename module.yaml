@@ -7,6 +7,16 @@ notests *default:
 
   install:
     - Vostok.Datacenters/bin/Release/netstandard2.0/Vostok.Datacenters.dll
+    - groups:
+        - target-framework: "netstandard2.0"
+          libraries:
+            - Vostok.Datacenters/bin/Release/netstandard2.0/Vostok.Datacenters.dll
+        - target-framework: "net6.0"
+          libraries:
+            - Vostok.Datacenters/bin/Release/net6.0/Vostok.Datacenters.dll
+        - target-framework: "net8.0"
+          libraries:
+            - Vostok.Datacenters/bin/Release/net8.0/Vostok.Datacenters.dll
 
   deps:
     - vostok.devtools
@@ -20,6 +30,19 @@ full-build > notests:
   deps:
     - -vostok.devtools
     - vostok.devtools@with-net6.0
+
+  install:
+    - Vostok.Datacenters/bin/Release/netstandard2.0/Vostok.Datacenters.dll
+    - groups:
+        - target-framework: "netstandard2.0"
+          libraries:
+            - Vostok.Datacenters/bin/Release/netstandard2.0/Vostok.Datacenters.dll
+        - target-framework: "net6.0"
+          libraries:
+            - Vostok.Datacenters/bin/Release/net6.0/Vostok.Datacenters.dll
+        - target-framework: "net8.0"
+          libraries:
+            - Vostok.Datacenters/bin/Release/net8.0/Vostok.Datacenters.dll
 
   build:
     target: Vostok.Datacenters.sln
