@@ -1,3 +1,7 @@
+## 0.1.11 (09-10-2026): 
+
+Optimizations in DnsResolver (src deps)
+
 ## 0.1.10 (12-12-2024): 
 
 Bump NuGet deps versions
